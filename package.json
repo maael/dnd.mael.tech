@@ -1,0 +1,27 @@
+{
+  "name": "dnd.mael.tech",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Matthew Elphick <matt.a.elphy@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "node -r dotenv-extended/config server/index.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node -r dotenv-extended/config server/index.js"
+  },
+  "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "body-parser": "^1.18.3",
+    "dotenv-extended": "^2.4.0",
+    "express": "^4.16.4",
+    "lodash.debounce": "^4.0.8",
+    "mongoose": "^5.4.19",
+    "next": "^8.0.3",
+    "next-compose-plugins": "^2.1.1",
+    "next-transpile-modules": "^2.2.0",
+    "rbx": "^2.1.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  }
+}
