@@ -11,7 +11,7 @@ services:
     image: maael/dnd.mael.tech:latest
     restart: always
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       MONGO_URI: mongodb://mongo:27017/dnd
     labels:
@@ -42,12 +42,12 @@ services:
     image: mongo-express
     restart: always
     ports:
-      - "8081:8081"
+      - "8082:8081"
     labels:
       - traefik.backend=dnd-db
       - traefik.frontend.rule=Host:dnd-db.mael.tech
       - traefik.docker.network=proxy
-      - traefik.port=8081
+      - traefik.port=8082
     networks:
       - proxy
       - mongo
