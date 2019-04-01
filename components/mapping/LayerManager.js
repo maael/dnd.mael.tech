@@ -1,8 +1,9 @@
 import {useState, useRef} from 'react';
-import {Layer, Text} from 'react-konva';
+import {Layer} from 'react-konva';
 import uuidv4 from 'uuid/v4';
 import LayerControl from './LayerControl';
 import MapLayer from './MapLayer';
+import Button from './ui/Button';
 
 export default () => {
   const [currentLayer, updateCurrentLayer] = useState(0);
@@ -56,11 +57,11 @@ export default () => {
   return (
     <>
       <Layer ref={detailsRef}>
-        <Text x={100} text={`Current layer: ${layers[currentLayer] ? layers[currentLayer].name : ''}`} />
-        <Text x={250} text="Add layer" onClick={handleNewLayer} onTap={handleNewLayer} />
-        <Text x={350} text="Add image" onClick={handleNewLayerItem('image')} onTap={handleNewLayerItem('image')} />
-        <Text x={450} text="Add marker" onClick={handleNewLayerItem('marker')} onTap={handleNewLayerItem('marker')} />
-        <Text x={550} text="Save" onClick={() => console.info('save', layers)} onTap={() => console.info('save', layers)} />
+        <Button x={100} y={10} text={`Current layer: ${layers[currentLayer] ? layers[currentLayer].name : ''}`} />
+        <Button x={250} y={10} text="Add layer" onClick={handleNewLayer} onTap={handleNewLayer} />
+        <Button x={350} y={10} text="Add image" onClick={handleNewLayerItem('image')} onTap={handleNewLayerItem('image')} />
+        <Button x={450} y={10} text="Add marker" onClick={handleNewLayerItem('marker')} onTap={handleNewLayerItem('marker')} />
+        <Button x={550} y={10} text="Save" onClick={() => console.info('save', layers)} onTap={() => console.info('save', layers)} />
       </Layer>
       <MapLayer layer={layers[currentLayer]} updateLayer={updateLayer} currentLayerRef={currentLayerRef} />
       <LayerControl

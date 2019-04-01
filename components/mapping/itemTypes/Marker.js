@@ -4,6 +4,12 @@ import appDebug from '../../../lib/debug';
 
 const debug = appDebug.extend('MarkerItem');
 
+/**
+ * TODO: Doesn't close when you click outside an active marker
+ * Needs some kind of 'stage' listener working inside konva to have easy access
+ * to the targetted element to decide whether to stay active or not
+ */
+
 export default class MarkerItem extends React.Component {
   state = {
     active: false

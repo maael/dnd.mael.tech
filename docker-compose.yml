@@ -14,6 +14,7 @@ services:
       - "3001:3000"
     environment:
       MONGO_URI: mongodb://mongo:27017/dnd
+      DEBUG:
     labels:
       - traefik.backend=dnd
       - traefik.frontend.rule=Host:dnd.mael.tech
