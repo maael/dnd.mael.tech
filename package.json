@@ -24,6 +24,7 @@
     "next-transpile-modules": "^2.2.0",
     "rbx": "^2.1.0",
     "react": "^16.8.4",
+    "react-contextmenu": "^2.11.0",
     "react-dom": "^16.8.4",
     "react-konva": "^16.8.6",
     "uuid": "^3.3.2"

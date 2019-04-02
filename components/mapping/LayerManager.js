@@ -1,16 +1,24 @@
 import {useState, useRef} from 'react';
 import {Layer} from 'react-konva';
 import uuidv4 from 'uuid/v4';
+import debounce from 'lodash.debounce';
 import LayerControl from './LayerControl';
 import MapLayer from './MapLayer';
 import Button from './ui/Button';
 
 export default () => {
   const [currentLayer, updateCurrentLayer] = useState(0);
-  const [layers, updateLayers] = useState([
+  const existingMapState = localStorage.getItem('mapState');
+  let existingMapStateJson = [
     {id: uuidv4(), name: 'Layer #1', items: [{id: uuidv4(), type: 'image', data: {x: 100, y: 100}}]},
     {id: uuidv4(), name: 'Layer #2', items: [{id: uuidv4(), type: 'marker', data: {x: 200, y: 100, label: 'Test'}}]}
-  ]);
+  ];
+  try {
+    existingMapStateJson = JSON.parse(existingMapState);
+  } catch (e) {
+    console.error('Error loading state from localstorage', e);
+  }
+  const [layers, updateLayers] = useState(existingMapStateJson);
   const detailsRef = useRef();
   const currentLayerRef = useRef();
 
@@ -51,19 +59,28 @@ export default () => {
       ...item,
     };
     updateLayers(newLayers);
-    console.info('what', currentLayerRef && currentLayerRef.current && currentLayerRef.current.getLayer().toDataURL());
+    getThumbnail();
+  }
+
+  const getThumbnail = debounce(getThumbnailRaw, 2000);
+
+  function getThumbnailRaw () {
+    return currentLayerRef && currentLayerRef.current && currentLayerRef.current.getLayer().toDataURL();
   }
 
   return (
     <>
+      <MapLayer layer={layers[currentLayer]} updateLayer={updateLayer} currentLayerRef={currentLayerRef} />
       <Layer ref={detailsRef}>
         <Button x={100} y={10} text={`Current layer: ${layers[currentLayer] ? layers[currentLayer].name : ''}`} />
         <Button x={250} y={10} text="Add layer" onClick={handleNewLayer} onTap={handleNewLayer} />
         <Button x={350} y={10} text="Add image" onClick={handleNewLayerItem('image')} onTap={handleNewLayerItem('image')} />
         <Button x={450} y={10} text="Add marker" onClick={handleNewLayerItem('marker')} onTap={handleNewLayerItem('marker')} />
-        <Button x={550} y={10} text="Save" onClick={() => console.info('save', layers)} onTap={() => console.info('save', layers)} />
+        <Button x={550} y={10} text="Save" onClick={() => {
+          console.info('save', layers, JSON.stringify(layers));
+          localStorage.setItem('mapState', JSON.stringify(layers));
+        }} onTap={() => console.info('save', layers)} />
       </Layer>
-      <MapLayer layer={layers[currentLayer]} updateLayer={updateLayer} currentLayerRef={currentLayerRef} />
       <LayerControl
         currentValue={currentLayer}
         steps={layers.length}
