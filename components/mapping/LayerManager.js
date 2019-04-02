@@ -14,7 +14,10 @@ export default () => {
     {id: uuidv4(), name: 'Layer #2', items: [{id: uuidv4(), type: 'marker', data: {x: 200, y: 100, label: 'Test'}}]}
   ];
   try {
-    existingMapStateJson = JSON.parse(existingMapState);
+    const parsed = JSON.parse(existingMapState);
+    if (parsed) {
+      existingMapStateJson = parsed;
+    }
   } catch (e) {
     console.error('Error loading state from localstorage', e);
   }
