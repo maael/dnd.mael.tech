@@ -11,7 +11,7 @@ export default () => {
   const existingMapState = localStorage.getItem('mapState');
   let existingMapStateJson = [
     {id: uuidv4(), name: 'Layer #1', items: [{id: uuidv4(), type: 'image', data: {x: 100, y: 100}}]},
-    {id: uuidv4(), name: 'Layer #2', items: [{id: uuidv4(), type: 'marker', data: {x: 200, y: 100, label: 'Test'}}]}
+    {id: uuidv4(), name: 'Layer #2', items: [{id: uuidv4(), type: 'marker', data: {x: 200, y: 100, icon: 'scroll', labelColor: '#000', label: 'Test'}}]}
   ];
   try {
     const parsed = JSON.parse(existingMapState);
@@ -47,6 +47,8 @@ export default () => {
         })
       }
       if (type === 'marker') {
+        newLayers[currentLayer].items[newLayers[currentLayer].items.length - 1].data.icon = 'scroll';
+        newLayers[currentLayer].items[newLayers[currentLayer].items.length - 1].data.labelColor = '#000';
         newLayers[currentLayer].items[newLayers[currentLayer].items.length - 1].data.label = 'New Marker';
       }
       updateLayers(newLayers);
@@ -83,6 +85,9 @@ export default () => {
           console.info('save', layers, JSON.stringify(layers));
           localStorage.setItem('mapState', JSON.stringify(layers));
         }} onTap={() => console.info('save', layers)} />
+        <Button x={600} y={10} text="Clear" onClick={() => {
+          localStorage.removeItem('mapState');
+        }} />
       </Layer>
       <LayerControl
         currentValue={currentLayer}

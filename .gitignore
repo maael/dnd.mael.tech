@@ -85,3 +85,6 @@ typings/
 
 # Data files
 data/
+
+# Mac
+.DS_STORE
