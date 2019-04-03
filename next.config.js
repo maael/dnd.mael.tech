@@ -5,7 +5,7 @@ const dotenv = require('dotenv-extended').load()
 
 module.exports = withPlugins([
   [withTM, {
-    transpileModules: ['rbx']
+    transpileModules: ['rbx', 'ky']
   }],
   withSASS,
 ], {

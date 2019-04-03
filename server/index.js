@@ -11,7 +11,9 @@ const handle = app.getRequestHandler()
 
 app.prepare().then(() => {
   const server = express()
-    .use(bodyParser.json())
+    .use(bodyParser.json({
+      limit: '50mb'
+    }))
     .use('/api', api)
 
   server.get('*', (req, res) => {

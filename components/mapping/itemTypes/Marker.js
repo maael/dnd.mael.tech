@@ -30,7 +30,6 @@ export default class MarkerItem extends React.Component {
 
   renderActive = () => {
     const {layer, updateLayer, ...item} = this.props;
-    console.info('what', item);
     return (
       <CustomPortal>
         <div style={{
@@ -86,6 +85,13 @@ export default class MarkerItem extends React.Component {
 
   renderInactive = () => {
     const {layer, updateLayer, ...item} = this.props;
+    const activate = () => {
+      this.setState({active: true});
+      const id = this.context.on('stage:click', () => {
+        this.setState({active: false});
+        this.context.remove('stage:click', id);
+      })
+    }
     return (
       <>
       <Image src={`${window.location.origin}/static/icons/${item.icon}.png`} />
@@ -93,13 +99,8 @@ export default class MarkerItem extends React.Component {
         text={item.label}
         fontStyle="bold"
         fill={item.labelColor}
-        onDblClick={() => {
-          this.setState({active: true});
-          const id = this.context.on('stage:click', () => {
-            this.setState({active: false});
-            this.context.remove('stage:click', id);
-          })
-        }}
+        onDblClick={activate}
+        onDblTap={activate}
       />
       </>
     )
