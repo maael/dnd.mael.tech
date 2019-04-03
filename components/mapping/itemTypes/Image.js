@@ -59,7 +59,6 @@ export default class ImageItem extends React.Component {
     return (
       <Group x={item.x} y={item.y} draggable onDragMove={function (e) {
         const {x: offsetX, y: offsetY} = this.absolutePosition();
-        debug.extend('drag')(item.id, item.x, item.y, e);
         updateLayer(layer, {...item, x: offsetX, y: offsetY});
       }}>
         { loading

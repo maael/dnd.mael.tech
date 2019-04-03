@@ -86,6 +86,22 @@ export default () => {
     })
   })
 
+  async function dataToFile (src, layerId, itemId) {
+    const mimeType = src.split(';')[0].slice('data:'.length);
+    return (fetch(src)
+        .then((res) => res.arrayBuffer())
+        .then((buf) => new File([buf], itemId, {type:mimeType}))
+        .then((file) => ({file, layerId, itemId}))
+    );
+  }
+
+  async function upload (itemId, file) {
+    const form = new FormData();
+    form.append('image', file);
+    const result = await ky.post(`/api/map-image/${itemId}`, {body: form}).json();
+    return `/api/map-image${new URL(result.imageUrl).pathname}`;
+  }
+
   return (
     <>
       <MapLayer layer={layers[currentLayer]} updateLayer={updateLayer} currentLayerRef={currentLayerRef} />
@@ -95,9 +111,26 @@ export default () => {
         <Button x={350} y={10} text="Add image" onClick={handleNewLayerItem('image')} onTap={handleNewLayerItem('image')} />
         <Button x={450} y={10} text="Add marker" onClick={handleNewLayerItem('marker')} onTap={handleNewLayerItem('marker')} />
         <Button x={550} y={10} text="Save" onClick={async () => {
-          console.info('save', layers, JSON.stringify(layers));
           const mapId = getMapId();
           const method = mapId ? 'patch' : 'post';
+          const imageConversions = [];
+          layers.forEach((layer) => {
+            layer.items.forEach((item) => {
+              if (item.type === 'image' && item.data.src.startsWith('data:')) {
+                imageConversions.push((async () => {
+                  const file = await dataToFile(item.data.src, layer.id, item.id);
+                  const uploaded = await upload(item.id, file.file);
+                  item.data.src = uploaded;
+                  return {uploaded, ...file, item};
+                })())
+              }
+            })
+          })
+          const conversions = await Promise.all(imageConversions);
+          conversions.forEach((conversion) => {
+            const layer = layers.find(({id}) => id === conversion.layerId);
+            updateLayer(layer, conversion.item);
+          });
           const result = await ky[method](`/api/map-save${mapId ? `/${mapId}` : ''}`, {json: {name: 'Test', description: 'testing saves', data: layers}}).json();
           localStorage.setItem('mapId', result._id);
         }} onTap={() => console.info('save', layers)} />

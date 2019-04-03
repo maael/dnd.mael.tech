@@ -111,7 +111,6 @@ export default class MarkerItem extends React.Component {
     const {active} = this.state;
     return (
       <Group x={item.x} y={item.y} draggable onDragMove={function (e) {
-        debug.extend('drag')(item.id, item.x, item.y, e);
         const {x: offsetX, y: offsetY} = this.absolutePosition();
         updateLayer(layer, {...item, x: offsetX, y: offsetY});
       }}>

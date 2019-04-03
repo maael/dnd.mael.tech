@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const debounce = require('lodash.debounce')
 const Map = require('./models/Map')
 const MapSave = require('./models/MapSave')
+const s3 = require('./s3');
 
 const {MONGO_URI} = process.env
 
@@ -40,10 +41,25 @@ router.get('/map', async (_, res) => {
 })
 
 router.post('/map', async (req, res) => {
-  const item = new Map(req.body)
+  const item = new Map(req.body);
   await item.save()
   res.send({item})
 })
+
+router.post('/map-image/:id', (req, res) => {
+  s3.upload.single('image')(req, res, (err, _) => {
+    if (err) {
+      console.error(err);
+      return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
+    }
+    return res.json({'imageUrl': req.file.location});
+  })
+})
+
+router.get('/map-image/:id', (req, res) => {
+  const {id} = req.params;
+  s3.get(req, res)(id);
+});
 
 router.get('/map-save', async (_, res) => {
   const items = await MapSave.find({})

@@ -11,6 +11,13 @@ module.exports = withPlugins([
 ], {
   publicRuntimeConfig: {
     appName: dotenv.APP_NAME,
-    debug: `${dotenv.DEBUG}`
+    debug: dotenv.DEBUG
+  },
+  serverRuntimeConfig: {
+    aws: {
+      accessKeyId: dotenv.AWS_ACCESS_KEY_ID,
+      secretAccessKey: dotenv.AWS_SECRET_ACCESS_KEY,
+      region: dotenv.AWS_REGION
+    }
   }
 });
