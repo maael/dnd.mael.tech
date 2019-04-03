@@ -3,9 +3,9 @@ import App, { Container } from 'next/app'
 import {Navbar} from 'rbx/components/navbar'
 import {Field, Control} from 'rbx/elements/form'
 import {Button} from 'rbx/elements/button'
-import 'rbx/index.css'
+import './app.sass'
 
-const color = 'light'
+const color = 'primary'
 
 class DnDApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -37,11 +37,12 @@ class DnDApp extends App {
               <Navbar.Brand>
                 <Navbar.Item href="/">
                   <img
-                    src="https://bulma.io/images/bulma-logo.png"
+                    src="/static/icons/scroll.png"
                     alt="Bulma: a modern CSS framework based on Flexbox"
-                    width="112"
-                    height="28"
+                    width="30"
+                    height="30"
                   />
+                  <b>Cartographer</b>
                 </Navbar.Item>
                 <Navbar.Burger />
               </Navbar.Brand>
@@ -53,30 +54,11 @@ class DnDApp extends App {
                       Map
                     </Navbar.Link>
                     <Navbar.Dropdown boxed>
-                      <Navbar.Item href="/map">
+                      <Navbar.Item active href="/map">
                         Map
                       </Navbar.Item>
-                      <Navbar.Item href="https://bulma.io/documentation/modifiers/syntax/">
-                        Modifiers
-                      </Navbar.Item>
-                      <Navbar.Item href="https://bulma.io/documentation/columns/basics/">
-                        Columns
-                      </Navbar.Item>
-                      <Navbar.Item href="https://bulma.io/documentation/layout/container/">
-                        Layout
-                      </Navbar.Item>
-                      <Navbar.Item href="https://bulma.io/documentation/form/general/">
-                        Form
-                      </Navbar.Item>
-                      <Navbar.Divider />
-                      <Navbar.Item href="https://bulma.io/documentation/elements/box/">
-                        Elements
-                      </Navbar.Item>
-                      <Navbar.Item
-                        active
-                        href="https://bulma.io/documentation/components/breadcrumb/"
-                      >
-                        Components
+                      <Navbar.Item href="/map">
+                        WIP
                       </Navbar.Item>
                     </Navbar.Dropdown>
                   </Navbar.Item>
@@ -93,7 +75,7 @@ class DnDApp extends App {
                         <Button
                           as="a"
                           color="primary"
-                          href="https://github.com/dfee/rbx"
+                          href="https://github.com/maael/dnd.mael.tech"
                         >
                           <span>GitHub</span>
                         </Button>
