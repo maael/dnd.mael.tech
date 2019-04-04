@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "prettier": "prettier '{components,lib,pages,server}/**/*.js'",
+    "prettier": "prettier --write '{components,lib,pages,server}/**/*.js'",
     "dev": "node -r dotenv-extended/config server/index.js",
     "build": "next build",
     "start": "NODE_ENV=production node -r dotenv-extended/config server/index.js"

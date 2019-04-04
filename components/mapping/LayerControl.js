@@ -1,33 +1,37 @@
-import {useRef, useState} from 'react';
-import {Layer, Rect} from 'react-konva';
+import { useRef, useState } from 'react';
+import { Layer, Rect } from 'react-konva';
 
-export default ({steps = 4, x = 20, y = 20,
-bar = {
-  width: 10,
-  height: 200
-},
-dragItem = {
-  width: 20,
-  height: 20
-},
-currentValue = 0,
-onChangeStep = () => {},
-theme = {
-  fillColor: 'lightgrey',
-  strokeColor: 'darkgrey',
-  strokeWidth: 2,
-  shadowBlur: 5
-}}) => {
+export default ({
+  steps = 4,
+  x = 20,
+  y = 20,
+  bar = {
+    width: 10,
+    height: 200
+  },
+  dragItem = {
+    width: 20,
+    height: 20
+  },
+  currentValue = 0,
+  onChangeStep = () => {},
+  theme = {
+    fillColor: 'lightgrey',
+    strokeColor: 'darkgrey',
+    strokeWidth: 2,
+    shadowBlur: 5
+  }
+}) => {
   const [currentStep, updateStep] = useState(0);
   const [currentSteps, updateSteps] = useState(steps);
   const barRef = useRef();
   const dragItemRef = useRef();
   const layerRef = useRef();
-  const stepSize = bar.height / (steps -1);
-  function handleBarClick (e) {
-    const {offsetX, offsetY} = e.evt;
-    const {current} = dragItemRef;
-    const pos = calculateDragItemCoords({x: offsetX, y: offsetY});
+  const stepSize = bar.height / (steps - 1);
+  function handleBarClick(e) {
+    const { offsetX, offsetY } = e.evt;
+    const { current } = dragItemRef;
+    const pos = calculateDragItemCoords({ x: offsetX, y: offsetY });
     current.setPosition(pos);
     layerRef.current.draw();
   }
@@ -40,11 +44,12 @@ theme = {
       onChangeStep(previousStep, newStep);
     }
   }
-  function calculateDragItemCoords (pos) {
-    let dragY = y - (dragItem.height / 2) + Math.round(pos.y / stepSize) * stepSize;
-    const {y: barY, height: barHeight} = barRef.current.attrs;
+  function calculateDragItemCoords(pos) {
+    let dragY =
+      y - dragItem.height / 2 + Math.round(pos.y / stepSize) * stepSize;
+    const { y: barY, height: barHeight } = barRef.current.attrs;
     if (dragY + dragItem.height > barY + barHeight) {
-      dragY = (barY + barHeight) - dragItem.height;
+      dragY = barY + barHeight - dragItem.height;
     } else if (dragY < barY) {
       dragY = barY;
     }
@@ -52,16 +57,16 @@ theme = {
     return {
       x: dragItemRef.current.attrs.x,
       y: dragY
-    }
+    };
   }
   if (currentStep !== currentValue || steps !== currentSteps) {
     updateStep(currentValue);
     updateSteps(steps);
     onChangeStep(currentStep, currentValue);
-    let dragY = y - (dragItem.height / 2) + (currentValue) * stepSize;
-    const {y: barY, height: barHeight} = barRef.current.attrs;
+    let dragY = y - dragItem.height / 2 + currentValue * stepSize;
+    const { y: barY, height: barHeight } = barRef.current.attrs;
     if (dragY + dragItem.height > barY + barHeight) {
-      dragY = (barY + barHeight) - dragItem.height;
+      dragY = barY + barHeight - dragItem.height;
     } else if (dragY < barY) {
       dragY = barY;
     }
@@ -69,7 +74,7 @@ theme = {
       x: dragItemRef.current.attrs.x,
       y: dragY
     };
-    const {current} = dragItemRef;
+    const { current } = dragItemRef;
     current.setPosition(pos);
     layerRef.current.draw();
   }
@@ -89,7 +94,7 @@ theme = {
         onClick={handleBarClick}
       />
       <Rect
-        x={x - ((dragItem.width - bar.width) / 2)}
+        x={x - (dragItem.width - bar.width) / 2}
         y={y}
         width={dragItem.width}
         height={dragItem.height}
@@ -103,4 +108,4 @@ theme = {
       />
     </Layer>
   );
-}
+};

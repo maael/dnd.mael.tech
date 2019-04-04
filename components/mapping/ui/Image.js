@@ -1,26 +1,26 @@
-import {Image as KonvaImage} from 'react-konva';
+import { Image as KonvaImage } from 'react-konva';
 
 export default class ImageComponent extends React.Component {
   state = {
     loading: false,
     image: null
-  }
+  };
 
   componentDidMount() {
-    const {src} = this.props;
+    const { src } = this.props;
     if (src) {
-      this.setState({loading: true})
+      this.setState({ loading: true });
       const image = new Image();
       image.onload = () => {
-        this.setState({image, loading: false});
-      }
+        this.setState({ image, loading: false });
+      };
       image.src = src;
     }
   }
 
-  render () {
-    const {src, ...props} = this.props;
-    const {image} = this.state;
+  render() {
+    const { src, ...props } = this.props;
+    const { image } = this.state;
     return (
       <KonvaImage
         width={50}
@@ -30,6 +30,6 @@ export default class ImageComponent extends React.Component {
         image={image}
         {...props}
       />
-    )
+    );
   }
 }

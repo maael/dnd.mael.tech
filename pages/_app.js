@@ -1,25 +1,25 @@
-import React from 'react'
-import App, { Container } from 'next/app'
-import {Navbar} from 'rbx/components/navbar'
-import {Field, Control} from 'rbx/elements/form'
-import {Button} from 'rbx/elements/button'
-import './app.sass'
+import React from 'react';
+import App, { Container } from 'next/app';
+import { Navbar } from 'rbx/components/navbar';
+import { Field, Control } from 'rbx/elements/form';
+import { Button } from 'rbx/elements/button';
+import './app.sass';
 
-const color = 'primary'
+const color = 'primary';
 
 class DnDApp extends App {
   static async getInitialProps({ Component, ctx }) {
-    let pageProps = {}
+    let pageProps = {};
 
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
+      pageProps = await Component.getInitialProps(ctx);
     }
 
-    return { pageProps }
+    return { pageProps };
   }
 
   render() {
-    const { Component, pageProps } = this.props
+    const { Component, pageProps } = this.props;
 
     return (
       <Container>
@@ -27,12 +27,14 @@ class DnDApp extends App {
           * {
             box-sizing: border-box;
           }
-          html, body, body > div {
+          html,
+          body,
+          body > div {
             height: 100%;
           }
         `}</style>
-        <div style={{display: 'flex', height: '100%'}}>
-          <div style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
+        <div style={{ display: 'flex', height: '100%' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Navbar color={color}>
               <Navbar.Brand>
                 <Navbar.Item href="/">
@@ -50,16 +52,12 @@ class DnDApp extends App {
                 <Navbar.Segment align="start">
                   <Navbar.Item href="/">Home</Navbar.Item>
                   <Navbar.Item dropdown hoverable>
-                    <Navbar.Link href="/map">
-                      Map
-                    </Navbar.Link>
+                    <Navbar.Link href="/map">Map</Navbar.Link>
                     <Navbar.Dropdown boxed>
                       <Navbar.Item active href="/map">
                         Map
                       </Navbar.Item>
-                      <Navbar.Item href="/map">
-                        WIP
-                      </Navbar.Item>
+                      <Navbar.Item href="/map">WIP</Navbar.Item>
                     </Navbar.Dropdown>
                   </Navbar.Item>
                 </Navbar.Segment>
@@ -91,8 +89,8 @@ class DnDApp extends App {
           </div>
         </div>
       </Container>
-    )
+    );
   }
 }
 
-export default DnDApp
+export default DnDApp;

@@ -1,4 +1,4 @@
-import {createContext} from 'react';
+import { createContext } from 'react';
 import uuidv4 from 'uuid/v4';
 
 const KonvaContext = createContext();
@@ -12,7 +12,7 @@ class KonvaContextWrapper extends React.Component {
       remove: this.remove,
       contextTarget: null,
       update: this.setState.bind(this)
-    }
+    };
     this._events = {};
   }
 
@@ -25,28 +25,28 @@ class KonvaContextWrapper extends React.Component {
       this._events[event] = new Map([[id, fn]]);
     }
     return id;
-  }
+  };
 
   remove = (event, eventId) => {
     const bucket = this._events[event];
     if (bucket) {
       bucket.delete(eventId);
     }
-  }
+  };
 
   trigger = (event, data) => {
     const bucket = this._events[event];
     if (!bucket) return;
-    [...bucket.values()].forEach((fn) => fn(data));
-  }
+    [...bucket.values()].forEach(fn => fn(data));
+  };
 
-  render () {
-    const {children} = this.props;
+  render() {
+    const { children } = this.props;
     return (
       <KonvaContext.Provider value={this.state}>
         {children}
       </KonvaContext.Provider>
-    )
+    );
   }
 }
 

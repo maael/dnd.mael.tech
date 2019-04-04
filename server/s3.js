@@ -6,7 +6,7 @@ const aws = require('aws-sdk');
 const { serverRuntimeConfig } = getConfig();
 
 const BUCKET = 'dnd-user-map-assets';
-const PREFIX = 'map-asset'
+const PREFIX = 'map-asset';
 
 aws.config.update(serverRuntimeConfig.aws);
 
@@ -18,29 +18,28 @@ const upload = multer({
     bucket: BUCKET,
     acl: 'public-read',
     cacheControl: 'max-age=31536000',
-    metadata: function (req, file, cb) {
+    metadata: function(req, file, cb) {
       cb(null, {
         id: req.params.id,
         fieldName: file.fieldname
       });
     },
-    key: function (req, _, cb) {
-      cb(null, `${PREFIX}-${req.params.id}`)
+    key: function(req, _, cb) {
+      cb(null, `${PREFIX}-${req.params.id}`);
     }
   })
-})
+});
 
-function get (_, res) {
-  return (id) => {
-    s3.getObject({Bucket: BUCKET, Key: id})
-      .on('httpHeaders', function (headers) {
-          res.set('Content-Length', headers['content-length']);
-          res.set('Content-Type', headers['content-type']);
-          this.response.httpResponse.createUnbufferedStream()
-              .pipe(res);
+function get(_, res) {
+  return id => {
+    s3.getObject({ Bucket: BUCKET, Key: id })
+      .on('httpHeaders', function(headers) {
+        res.set('Content-Length', headers['content-length']);
+        res.set('Content-Type', headers['content-type']);
+        this.response.httpResponse.createUnbufferedStream().pipe(res);
       })
       .send();
-  }
+  };
 }
 
 module.exports = {

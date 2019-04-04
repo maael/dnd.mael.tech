@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const ModelSchema = new Schema({
-  name: 'string',
-})
+  name: 'string'
+});
 
 const Model = mongoose.model('Map', ModelSchema);
 
-module.exports = Model
+module.exports = Model;

@@ -1,18 +1,22 @@
-import {Stage} from 'react-konva';
+import { Stage } from 'react-konva';
 import LayerManager from './LayerManager';
 import ContextMenu from './ui/ContextMenu';
-import {Wrapper, Context} from './lib/KonvaContext';
+import { Wrapper, Context } from './lib/KonvaContext';
 
 export default () => {
   if (typeof window === 'undefined') return null;
   return (
     <Wrapper>
       <Context.Consumer>
-        {(context) => (
+        {context => (
           <>
-            <Stage width={window.innerWidth} height={window.innerHeight} onClick={(e) => {
-              context.trigger('stage:click', e.target);
-            }}>
+            <Stage
+              width={window.innerWidth}
+              height={window.innerHeight}
+              onClick={e => {
+                context.trigger('stage:click', e.target);
+              }}
+            >
               <Context.Provider value={context}>
                 <LayerManager />
               </Context.Provider>
@@ -23,4 +27,4 @@ export default () => {
       </Context.Consumer>
     </Wrapper>
   );
-}
+};

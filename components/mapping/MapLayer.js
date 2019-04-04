@@ -1,4 +1,4 @@
-import {Layer} from 'react-konva';
+import { Layer } from 'react-konva';
 import types from './itemTypes';
 
 /*
@@ -28,14 +28,22 @@ import types from './itemTypes';
   }
 */
 
-export default ({layer, updateLayer, currentLayerRef}) => {
+export default ({ layer, updateLayer, currentLayerRef }) => {
   return layer && layer.items ? (
-    <Layer ref={(ref) => currentLayerRef.current = ref}>
-      {layer.items.map((item) => {
+    <Layer ref={ref => (currentLayerRef.current = ref)}>
+      {layer.items.map(item => {
         if (!types[item.type]) return null;
         const Comp = types[item.type];
-        return <Comp key={item.id} id={item.id} {...item.data} layer={layer} updateLayer={updateLayer} />;
+        return (
+          <Comp
+            key={item.id}
+            id={item.id}
+            {...item.data}
+            layer={layer}
+            updateLayer={updateLayer}
+          />
+        );
       })}
     </Layer>
   ) : null;
-}
+};
