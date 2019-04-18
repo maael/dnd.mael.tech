@@ -2,6 +2,7 @@ const getConfig = require('next/config').default;
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
+const s3ImageMinStream = require('./s3ImageMinStream');
 
 const { serverRuntimeConfig } = getConfig();
 
@@ -26,6 +27,12 @@ const upload = multer({
     },
     key: function(req, _, cb) {
       cb(null, `${PREFIX}-${req.params.id}`);
+    },
+    contentType: function(req, file, cb) {
+      multerS3.AUTO_CONTENT_TYPE(req, file, function(_, mime, stream) {
+        replacementStream = s3ImageMinStream(stream);
+        cb(null, mime, replacementStream);
+      });
     }
   })
 });
